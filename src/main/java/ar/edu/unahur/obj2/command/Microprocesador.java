@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unahur.obj2.command.comandos.Operable;
+import ar.edu.unahur.obj2.command.excepctions.MicroException;
 
 public class Microprocesador implements Programable {
 	private Integer a = 0; 
@@ -65,11 +66,17 @@ public class Microprocesador implements Programable {
 
 	@Override
 	public void setAddr(Integer addr) {
+		if (addr < 0 || addr > 1023) {
+			throw new MicroException("Error al colocar dato en posicion" + addr + ", solo se soportan valores entre 0 y 1023 inclusive");
+		}
 		datos.add(a);
 	}
 
 	@Override
 	public Integer getAddr(Integer addr) {
+		if (addr < 0 || addr > 1023) {			
+			throw new MicroException("No existe un dato en la posicion " + addr);
+		}
 		return datos.get(addr);
 	}
 

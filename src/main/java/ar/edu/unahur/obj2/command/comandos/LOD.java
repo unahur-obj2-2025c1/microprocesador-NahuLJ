@@ -11,8 +11,8 @@ public class LOD implements Operable{
 	
 	@Override
 	public void execute(Programable micro) {
-		micro.setAcumuladorA(micro.getAddr(pos));
 		micro.incProgramCounter();
+		micro.setAcumuladorA(micro.getAddr(pos));
 	}
 
 	@Override

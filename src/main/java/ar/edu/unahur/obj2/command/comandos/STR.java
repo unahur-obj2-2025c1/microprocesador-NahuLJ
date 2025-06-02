@@ -11,8 +11,8 @@ public class STR implements Operable{
 	
 	@Override
 	public void execute(Programable micro) {
-		micro.setAddr(pos);
 		micro.incProgramCounter();
+		micro.setAddr(pos);
 	}
 
 	@Override

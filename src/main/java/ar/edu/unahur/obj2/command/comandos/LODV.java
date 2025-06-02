@@ -11,8 +11,8 @@ public class LODV implements Operable{
 	
 	@Override
 	public void execute(Programable micro) {
-		micro.setAcumuladorA(valor);
 		micro.incProgramCounter();
+		micro.setAcumuladorA(valor);
 	}
 
 	@Override

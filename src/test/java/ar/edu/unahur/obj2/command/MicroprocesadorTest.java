@@ -21,6 +21,18 @@ public class MicroprocesadorTest {
 		assertEquals(3,micro.getProgramCounter());
 		assertEquals(0,micro.getAcumuladorA());
 		assertEquals(0,micro.getAcumuladorB());
+		
+		//si hago un undo el programCounter pasa a 2
+		micro.undo();
+		assertEquals(2,micro.getProgramCounter());
+		
+		//si hago otro undo el programCounter pasa a 1
+		micro.undo();
+		assertEquals(1,micro.getProgramCounter());
+		
+		//si hago otro undo el programCounter pasa a 0
+		micro.undo();
+		assertEquals(0,micro.getProgramCounter());
 	}
 	
 	@Test
@@ -33,6 +45,18 @@ public class MicroprocesadorTest {
 		assertEquals(4,micro.getProgramCounter());
 		assertEquals(37,micro.getAcumuladorA());
 		assertEquals(0,micro.getAcumuladorB());
+		
+		//si hago un undo a = 17 y b = 20 y el PC pasa a 3
+		micro.undo();
+		assertEquals(3,micro.getProgramCounter());
+		assertEquals(17,micro.getAcumuladorA());
+		assertEquals(20,micro.getAcumuladorB());
+		
+		//si hago un undo a = 17 y b = 20 y el PC pasa a 3
+		micro.undo();
+		assertEquals(2,micro.getProgramCounter());
+		assertEquals(0,micro.getAcumuladorA());
+		assertEquals(20,micro.getAcumuladorB());
 	}
 	
 	@Test

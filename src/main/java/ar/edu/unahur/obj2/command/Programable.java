@@ -2,7 +2,7 @@ package ar.edu.unahur.obj2.command;
 
 import java.util.List;
 
-import ar.edu.unahur.obj2.command.comandos.Operable;
+import ar.edu.unahur.obj2.command.comandos.*;
 
 public interface Programable {
 
@@ -29,4 +29,10 @@ public interface Programable {
     void setAddr(Integer addr);
 
     Integer getAddr(Integer addr);
+    
+    void undo();
+    
+    void setUltimaOperacion(Operable operacion);
+    
+    Operable getUltimaOperacion();
 }

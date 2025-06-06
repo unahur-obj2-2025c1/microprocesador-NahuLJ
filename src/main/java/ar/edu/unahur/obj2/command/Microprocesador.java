@@ -1,6 +1,6 @@
 package ar.edu.unahur.obj2.command;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ar.edu.unahur.obj2.command.comandos.Operable;
@@ -10,11 +10,23 @@ public class Microprocesador implements Programable {
 	private Integer a = 0; 
 	private Integer b = 0;
 	private Integer programCounter = 0;
-	private List<Integer> datos = new ArrayList<>();
+	private List<Integer> datos = Arrays.asList(new Integer[1024]);
+	private Operable ultimaOperacion = null;
+	
+	public Microprocesador() {}
+	
+	public Microprocesador(Integer a, Integer b, Integer programCounter, Operable ultimaOperacion) {
+		this.a = a;
+		this.b = b;
+		this.programCounter = programCounter;
+		this.ultimaOperacion = ultimaOperacion;
+	}
 	
 	@Override
 	public void run(List<Operable> operaciones) {
-		operaciones.stream().forEach(o -> o.execute(this));
+		operaciones.stream().forEach(o -> {
+			o.execute(this);
+		});
 	}
 
 	@Override
@@ -49,12 +61,15 @@ public class Microprocesador implements Programable {
 
 	@Override
 	public void copyFrom(Programable programable) {
-		
+		this.a = programable.getAcumuladorA();
+		this.b = programable.getAcumuladorB();
+		this.programCounter = programable.getProgramCounter();
+		this.ultimaOperacion = programable.getUltimaOperacion() != null? programable.getUltimaOperacion() : null;
 	}
 
 	@Override
 	public Programable copy() {
-		return null;
+		return new Microprocesador(this.getAcumuladorA(),this.getAcumuladorB(), this.getProgramCounter(),this.getUltimaOperacion());
 	}
 
 	@Override
@@ -62,6 +77,7 @@ public class Microprocesador implements Programable {
 		a = 0;
 		b = 0;
 		programCounter = 0;
+		datos = Arrays.asList(new Integer[1024]);
 	}
 
 	@Override
@@ -69,7 +85,7 @@ public class Microprocesador implements Programable {
 		if (addr < 0 || addr > 1023) {
 			throw new MicroException("Error al colocar dato en posicion" + addr + ", solo se soportan valores entre 0 y 1023 inclusive");
 		}
-		datos.add(a);
+		datos.set(addr,a);
 	}
 
 	@Override
@@ -79,5 +95,21 @@ public class Microprocesador implements Programable {
 		}
 		return datos.get(addr);
 	}
-
+		
+	@Override
+	public void undo() {
+		if(ultimaOperacion != null) {
+			ultimaOperacion.undo(this);
+		}
+	}
+	
+	@Override
+	public void setUltimaOperacion(Operable operacion) {
+		ultimaOperacion = operacion;
+	}
+	
+	@Override
+	public Operable getUltimaOperacion() {
+		return ultimaOperacion;
+	}
 }

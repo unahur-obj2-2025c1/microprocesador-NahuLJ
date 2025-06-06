@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProgramBuilder {
-    private final List<Operable> instrucciones = new ArrayList<>();
+    private List<Operable> instrucciones = new ArrayList<>();
 
     public ProgramBuilder nop() {
         instrucciones.add(new NOP());
@@ -36,6 +36,16 @@ public class ProgramBuilder {
     public ProgramBuilder lodv(Integer valor) {
         instrucciones.add(new LODV(valor));
         return this;
+    }
+    
+    public ProgramBuilder ifnz(List<Operable> programa) {
+    	instrucciones.add(new IFNZ(programa));
+    	return this;
+    }
+    
+    public ProgramBuilder whnz(List<Operable> programa) {
+    	instrucciones.add(new WHNZ(programa));
+    	return this;
     }
 
     public List<Operable> build() {

@@ -29,10 +29,6 @@ public interface Programable {
     void setAddr(Integer addr);
 
     Integer getAddr(Integer addr);
-    
-    void undo();
-    
-    void setUltimaOperacion(Operable operacion);
-    
-    Operable getUltimaOperacion();
+
+	List<Integer> getDatos();
 }

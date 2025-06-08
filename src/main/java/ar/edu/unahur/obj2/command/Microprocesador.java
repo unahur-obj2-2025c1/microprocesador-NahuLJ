@@ -11,15 +11,13 @@ public class Microprocesador implements Programable {
 	private Integer b = 0;
 	private Integer programCounter = 0;
 	private List<Integer> datos = Arrays.asList(new Integer[1024]);
-	private Operable ultimaOperacion = null;
 	
 	public Microprocesador() {}
 	
-	public Microprocesador(Integer a, Integer b, Integer programCounter, Operable ultimaOperacion) {
+	public Microprocesador(Integer a, Integer b, Integer programCounter) {
 		this.a = a;
 		this.b = b;
 		this.programCounter = programCounter;
-		this.ultimaOperacion = ultimaOperacion;
 	}
 	
 	@Override
@@ -64,12 +62,17 @@ public class Microprocesador implements Programable {
 		this.a = programable.getAcumuladorA();
 		this.b = programable.getAcumuladorB();
 		this.programCounter = programable.getProgramCounter();
-		this.ultimaOperacion = programable.getUltimaOperacion() != null? programable.getUltimaOperacion() : null;
+		this.datos = programable.getDatos();
 	}
 
 	@Override
 	public Programable copy() {
-		return new Microprocesador(this.getAcumuladorA(),this.getAcumuladorB(), this.getProgramCounter(),this.getUltimaOperacion());
+		Microprocesador copia = new Microprocesador();
+        copia.programCounter = this.programCounter;
+        copia.a = this.a;
+        copia.b = this.b;
+        copia.datos = this.datos;
+        return copia;
 	}
 
 	@Override
@@ -95,21 +98,9 @@ public class Microprocesador implements Programable {
 		}
 		return datos.get(addr);
 	}
-		
+
 	@Override
-	public void undo() {
-		if(ultimaOperacion != null) {
-			ultimaOperacion.undo(this);
-		}
-	}
-	
-	@Override
-	public void setUltimaOperacion(Operable operacion) {
-		ultimaOperacion = operacion;
-	}
-	
-	@Override
-	public Operable getUltimaOperacion() {
-		return ultimaOperacion;
+	public List<Integer> getDatos() {
+		return datos;
 	}
 }

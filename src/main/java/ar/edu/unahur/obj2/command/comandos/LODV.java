@@ -2,25 +2,15 @@ package ar.edu.unahur.obj2.command.comandos;
 
 import ar.edu.unahur.obj2.command.Programable;
 
-public class LODV implements Operable{
+public class LODV extends OperableCommand{
 	private Integer valor;
-	private Programable ultimoEstado = null;
 	
 	public LODV(Integer valor) {
 		this.valor = valor;
 	}
 	
 	@Override
-	public void execute(Programable micro) {
-		ultimoEstado = micro.copy();
-		micro.incProgramCounter();
-		micro.setUltimaOperacion(this);
-		
+	public void executeConcreto(Programable micro) {
 		micro.setAcumuladorA(valor);
-	}
-
-	@Override
-	public void undo(Programable micro) {
-		micro.copyFrom(ultimoEstado);
 	}
 }
